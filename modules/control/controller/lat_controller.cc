@@ -216,8 +216,8 @@ Status LatController::Init(std::shared_ptr<DependencyInjector> injector,
   matrix_a_(3, 2) = (lf_*cf_-lr*cr_)/iz_;
 
   matrix_a_coeff_ = Matrix::Zero(matrix_size, matrix_size);
-  matrix_a_coeff_(1, 1) =  -(cf_+cr_)/mass_;
-  matrix_a_coeff_(1, 3) =  (lr_*cr_-lf_*cf_)/mass_;
+  matrix_a_coeff_(1, 1) = -(cf_+cr_)/mass_;
+  matrix_a_coeff_(1, 3) = (lr_*cr_-lf_*cf_)/mass_;
   matrix_a_coeff_(3, 1) = (lr_*cr_-lf_*cf_)/iz_;
   matrix_a_coeff_(3, 3) = -1.0*(lf_*lf_*cf_+lr_*lr_*cr_)/iz_;
 
@@ -482,7 +482,7 @@ Status LatController::ComputeControlCommand(
     matrix_q_updated_(2, 2) =
         matrix_q_(2, 2) * heading_err_interpolation_->Interpolate(
                               std::fabs(vehicle_state->linear_velocity()));
-    common::math::SolveLQRProblem(matrix_adc_, matrix_bdc_, matrix_q_,
+    common::math::SolveLQRProblem(matrix_adc_, matrix_bdc_, matrix_q_updated,
                                  matrix_r_, lqr_eps_, lqr_max_iteration_,
                                  &matrix_k_);
   } else {
